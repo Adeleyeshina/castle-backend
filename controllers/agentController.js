@@ -18,7 +18,7 @@ export const addAgent = async (req, res) => {
         }
         await Agent.create(req.body)
 
-        return res.status(201).json({message : 'Agent Added Succesfully'})
+        return res.status(201).json({ message: 'Agent Added Succesfully' })
     } catch (error) {
         console.log("Error in Add agent controller", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })

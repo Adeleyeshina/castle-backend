@@ -5,6 +5,7 @@ import cors from 'cors'
 
 import db from './connectDB/db.js'
 import agentRoute from './routes/agentRoutes.js'
+import './keepAlive.js'
 
 dotenv.config()
 
@@ -20,6 +21,9 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 }))
 
+app.get("/", (req, res) => {
+    res.status(200).json("Welcome")
+})
 app.use("/api", agentRoute)
 
 app.listen(PORT, () => {

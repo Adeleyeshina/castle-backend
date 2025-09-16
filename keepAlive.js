@@ -1,0 +1,13 @@
+import cron from 'node-cron'
+import axios from 'axios'
+
+
+cron.schedule('*/13 * * * *', async () => {
+    try {
+        const response = await axios.get('http://localhost:5000/')
+        console.log(`Health check response: ${response.status}`);
+
+    } catch (error) {
+        console.error(`Health check error : ${error.messge}`)
+    }
+})
