@@ -10,6 +10,24 @@ export const allAgent = async (req, res) => {
     }
 }
 
+export const singleAgent = async (req, res) => {
+    try {
+        const id = req.params.id
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(401).json({ message: "invalid id" })
+        }
+        const agent = await Agent.findById(id)
+
+        if (!agent) {
+            return res.status(404).json({ message: "No agent found" })
+        }
+        res.status(200).json(agent)
+    } catch (error) {
+        console.log("Error in single agent controller", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
+
 export const addAgent = async (req, res) => {
     try {
         const { name, contact, occupation, location } = req.body
@@ -37,9 +55,29 @@ export const updateAgent = async (req, res) => {
             return res.status(404).json({ message: 'Agent not found' })
         }
 
-        res.status(200).json(agent)
+        res.status(200).json({message : "Agent Updated Successfully"})
     } catch (error) {
         console.log("Error in update agent controller", error.message)
+        res.status(500).json({ message: "Internal Server Error", error: error.message })
+    }
+}
+
+export const deleteAgent = async (req, res) => {
+    try {
+        const {id} = req.params
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(401).json({message : 'Invalid Agent id'})
+        }
+
+        const agent = await Agent.findByIdAndDelete(id)
+
+        if(!agent) {
+            return res.status(404).json({message : "No agent found"})
+        }
+
+        res.status(200).json({message : 'Deleted Successfully'})
+    } catch (error) {
+         console.log("Error in delete controller", error.message)
         res.status(500).json({ message: "Internal Server Error", error: error.message })
     }
 }
